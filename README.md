@@ -72,11 +72,18 @@ cd dAnonyChatSys
 # Install dependencies
 forge install
 
-# Build contracts
-forge build
-
 # Compile circuit
-cd circuit && nargo compile && cd ..
+cd circuit
+nargo compile
+
+# Generate verifier contract from circuit (REQUIRED STEP!)
+bb write_vk -b ./target/chat_privacy_circuit.json -o ./target/vk
+bb write_solidity_verifier -k ./target/vk -o ../src/UltraVerifier.sol
+cd ..
+
+# Build contracts (now that verifier is generated)
+forge build
+```
 # Compile circuit
 cd circuit && nargo compile && cd ..
 ```

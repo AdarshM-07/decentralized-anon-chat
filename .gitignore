@@ -16,6 +16,9 @@ docs/
 # Dependencies
 lib/
 
+# Generated verifier contract (auto-generated from circuit)
+src/UltraVerifier.sol
+
 # Noir circuit artifacts
 circuit/target/
 circuit/Prover.toml
