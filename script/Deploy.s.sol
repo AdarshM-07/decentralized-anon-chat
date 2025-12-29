@@ -14,11 +14,7 @@ contract DeployAnonChat is Script {
         HonkVerifier verifier = new HonkVerifier();
 
         // 2. Deploy Chatsystem with the verifier address
-        Chatsystem system = new Chatsystem(
-            "GlobalChat",
-            "PrivacyVault",
-            address(verifier)
-        );
+        Chatsystem system = new Chatsystem("GlobalChat", "PrivacyVault", address(verifier));
 
         vm.stopBroadcast();
 
