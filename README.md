@@ -262,6 +262,7 @@ dAnonyChatSys/
 This is a proof-of-concept and **NOT production-ready**.
 
 **Known Limitations:**
+- **Contract Size**: HonkVerifier (~32KB) exceeds EIP-170 limit (24KB). Deploy to networks that support large contracts or use a proxy pattern
 - Hash function placeholder (keccak256 instead of proper Pedersen)
 - Small Merkle tree (max 8 deposits)
 - Not professionally audited

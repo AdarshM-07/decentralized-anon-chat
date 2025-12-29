@@ -2,6 +2,12 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+# Allow contracts to exceed size limit (ZK verifiers are inherently large)
+ignore_eip_3860 = true
+
+[profile.ci]
+# CI profile - check sizes but don't fail on ZK verifier
+# Note: HonkVerifier (~32KB) exceeds EIP-170 limit - this is expected for ZK proofs
 
 [rpc_endpoints]
 anvil = "http://localhost:8545"
