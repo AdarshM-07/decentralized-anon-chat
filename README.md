@@ -6,6 +6,8 @@ A privacy-preserving decentralized chat system built with **Solidity**, **Noir**
 [![Noir](https://img.shields.io/badge/Powered%20by-Noir-000000.svg)](https://noir-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> **📝 Note:** CI only runs code formatting checks. Building/testing requires generating `UltraVerifier.sol` locally first (see [Quick Start](#-quick-start)).
+
 ## 🌟 Features
 
 - **🎭 Anonymous Funding**: Fund messages without revealing your identity using ZK-SNARKs
@@ -66,26 +68,41 @@ A privacy-preserving decentralized chat system built with **Solidity**, **Noir**
 
 ```shell
 # Clone the repository
-git clone https://github.com/yourusername/dAnonyChatSys.git
+git clone https://github.com/AdarshM-07/decentralized-anon-chat.git
 cd dAnonyChatSys
 
 # Install dependencies
 forge install
+```
 
-# Compile circuit
+### ⚠️ IMPORTANT: Generate ZK Verifier (Required Before Building)
+
+The `UltraVerifier.sol` file is **auto-generated** from the Noir circuit and is **NOT included in the repository** due to its size (~32KB, exceeds EIP-170 limit). You **must generate it locally** before building:
+
+```shell
+# Option 1: Use the setup script (recommended)
+chmod +x setup.sh
+./setup.sh
+
+# Option 2: Manual generation
 cd circuit
 nargo compile
-
-# Generate verifier contract from circuit (REQUIRED STEP!)
 bb write_vk -b ./target/chat_privacy_circuit.json -o ./target/vk
 bb write_solidity_verifier -k ./target/vk -o ../src/UltraVerifier.sol
 cd ..
-
-# Build contracts (now that verifier is generated)
-forge build
 ```
-# Compile circuit
-cd circuit && nargo compile && cd ..
+
+**Why not in repo?**
+- File is auto-generated from circuit
+- ~32KB size exceeds Ethereum's 24KB contract size limit
+- Changes with any circuit modification
+- Better generated fresh by each developer
+
+After generating the verifier, you can build:
+
+```shell
+# Build contracts
+forge build
 ```
 
 ### Testing

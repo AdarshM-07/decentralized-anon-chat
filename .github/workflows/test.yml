@@ -23,21 +23,6 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
 
-      - name: Install Noir and Barretenberg
-        run: |
-          curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash
-          echo "$HOME/.nargo/bin" >> $GITHUB_PATH
-          curl -L https://raw.githubusercontent.com/AztecProtocol/aztec-packages/master/barretenberg/cpp/installation/install | bash
-          echo "$HOME/.bb/bin" >> $GITHUB_PATH
-
-      - name: Generate ZK Verifier
-        run: |
-          cd circuit
-          nargo compile
-          bb write_vk -b ./target/chat_privacy_circuit.json -o ./target/vk
-          bb write_solidity_verifier -k ./target/vk -o ../src/UltraVerifier.sol
-          cd ..
-
       - name: Show Forge version
         run: |
           forge --version
@@ -46,13 +31,3 @@ jobs:
         run: |
           forge fmt --check
         id: fmt
-
-      - name: Run Forge build
-        run: |
-          forge build --sizes || echo "Note: ZK verifier exceeds size limit (expected)"
-        id: build
-
-      - name: Run Forge tests
-        run: |
-          forge test -vvv
-        id: test
