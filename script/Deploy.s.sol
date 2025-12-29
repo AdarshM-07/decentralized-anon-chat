@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import {Script, console} from "../lib/forge-std/src/Script.sol";
 import "../src/UltraVerifier.sol";
-import "../src/Chatsystem.sol";
+import "../src/chatSystem.sol";
 
 contract DeployAnonChat is Script {
     function run() external {
@@ -14,7 +14,11 @@ contract DeployAnonChat is Script {
         HonkVerifier verifier = new HonkVerifier();
 
         // 2. Deploy Chatsystem with the verifier address
-        Chatsystem system = new Chatsystem("GlobalChat", "PrivacyVault", address(verifier));
+        Chatsystem system = new Chatsystem(
+            "GlobalChat",
+            "PrivacyVault",
+            address(verifier)
+        );
 
         vm.stopBroadcast();
 

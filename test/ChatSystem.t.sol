@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import {Test, console} from "../lib/forge-std/src/Test.sol";
-import "../src/Chatsystem.sol";
+import "../src/chatSystem.sol";
 import "../src/UltraVerifier.sol";
 
 contract ChatSystemTest is Test {
@@ -17,7 +17,11 @@ contract ChatSystemTest is Test {
         verifier = new HonkVerifier();
 
         // Deploy chat system
-        chatSystem = new Chatsystem("TestChat", "Test Description", address(verifier));
+        chatSystem = new Chatsystem(
+            "TestChat",
+            "Test Description",
+            address(verifier)
+        );
 
         // Fund test users
         vm.deal(user1, 10 ether);
@@ -33,7 +37,9 @@ contract ChatSystemTest is Test {
     function testDepositToVault() public {
         // Generate a commitment (this would normally be: pedersen_hash([secret, nullifier]))
         // For testing, we use a placeholder value
-        bytes32 commitment = keccak256(abi.encodePacked(uint256(7), uint256(11)));
+        bytes32 commitment = keccak256(
+            abi.encodePacked(uint256(7), uint256(11))
+        );
 
         vm.startPrank(user1);
 
@@ -49,9 +55,15 @@ contract ChatSystemTest is Test {
     }
 
     function testMultipleDeposits() public {
-        bytes32 commitment1 = keccak256(abi.encodePacked(uint256(1), uint256(2)));
-        bytes32 commitment2 = keccak256(abi.encodePacked(uint256(3), uint256(4)));
-        bytes32 commitment3 = keccak256(abi.encodePacked(uint256(5), uint256(6)));
+        bytes32 commitment1 = keccak256(
+            abi.encodePacked(uint256(1), uint256(2))
+        );
+        bytes32 commitment2 = keccak256(
+            abi.encodePacked(uint256(3), uint256(4))
+        );
+        bytes32 commitment3 = keccak256(
+            abi.encodePacked(uint256(5), uint256(6))
+        );
 
         vm.startPrank(user1);
         chatSystem.depositToGlobalVault{value: 0.1 ether}(commitment1);
@@ -69,7 +81,9 @@ contract ChatSystemTest is Test {
     }
 
     function testDepositWrongAmount() public {
-        bytes32 commitment = keccak256(abi.encodePacked(uint256(7), uint256(11)));
+        bytes32 commitment = keccak256(
+            abi.encodePacked(uint256(7), uint256(11))
+        );
 
         vm.startPrank(user1);
 
@@ -94,7 +108,9 @@ contract ChatSystemTest is Test {
         assertEq(chatSystem.nextLeafIndex(), 8);
 
         // Try to add one more - should fail
-        bytes32 commitment = keccak256(abi.encodePacked(uint256(999), uint256(999)));
+        bytes32 commitment = keccak256(
+            abi.encodePacked(uint256(999), uint256(999))
+        );
         vm.prank(user1);
         vm.expectRevert("Vault full");
         chatSystem.depositToGlobalVault{value: 0.1 ether}(commitment);
@@ -103,7 +119,9 @@ contract ChatSystemTest is Test {
     function testGetMerkleRoot() public {
         bytes32 initialRoot = chatSystem.currentRoot();
 
-        bytes32 commitment = keccak256(abi.encodePacked(uint256(7), uint256(11)));
+        bytes32 commitment = keccak256(
+            abi.encodePacked(uint256(7), uint256(11))
+        );
         vm.prank(user1);
         chatSystem.depositToGlobalVault{value: 0.1 ether}(commitment);
 
@@ -148,7 +166,9 @@ contract ChatSystemTest is Test {
     // 3. Call anonymousFund with the proof
     function testAnonymousFundRequiresValidProof() public {
         // First, deposit to create a merkle root
-        bytes32 commitment = keccak256(abi.encodePacked(uint256(7), uint256(11)));
+        bytes32 commitment = keccak256(
+            abi.encodePacked(uint256(7), uint256(11))
+        );
         vm.prank(user1);
         chatSystem.depositToGlobalVault{value: 0.1 ether}(commitment);
 
