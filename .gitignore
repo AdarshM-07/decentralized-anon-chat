@@ -12,3 +12,24 @@ docs/
 
 # Dotenv file
 .env
+
+# Dependencies
+lib/
+
+# Noir circuit artifacts
+circuit/target/
+circuit/Prover.toml
+
+# Node
+node_modules/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
