@@ -3,5 +3,8 @@ src = "src"
 out = "out"
 libs = ["lib"]
 
+[fmt]
+ignore = ["src/UltraVerifier.sol"]
+
 [rpc_endpoints]
 anvil = "http://localhost:8545"
